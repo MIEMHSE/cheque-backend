@@ -2,17 +2,18 @@
 
 __author__ = 'Sergey Sobko'
 
-from flask import Flask
+from eve import Eve
 from celery import Celery
 
-from cheque.config import (
+from cheque.settings import (
     CELERY_BROKER_URL,
     CELERY_RESULT_BACKEND,
+    EVE_SETTINGS,
     SECRET_KEY
 )
 
 
-app = Flask(__name__)
+app = Eve(settings=EVE_SETTINGS)
 
 app.config['DEBUG'] = True
 
