@@ -19,6 +19,11 @@ EVE_SETTINGS = {
 
     'RETURN_MEDIA_AS_URL': True,
 
+    'RESOURCE_METHODS': ['GET', 'POST', 'DELETE'],
+    'ITEM_METHODS': ['GET', 'PATCH', 'DELETE'],
+
+    'XML': False,
+
     'MEDIA_BASE_URL': 'https://db.profitware.ru/cheque/',
     'MEDIA_ENDPOINT': 'media',
     'DOMAIN': {
@@ -56,7 +61,12 @@ EVE_SETTINGS = {
         'cheque': {
             'schema': {
                 'person': {
-                    'type': 'objectid'
+                    'type': 'objectid',
+                    'data_relation': {
+                     'resource': 'people',
+                     'field': '_id',
+                     'embeddable': True
+                 },
                 },
                 'image': {
                     'type': 'media'
