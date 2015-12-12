@@ -10,7 +10,7 @@ from cheque.bridge import celery
 
 @celery.task
 def hello_task():
-    task_id = str(celery.current_task)
+    task_id = hello_task.request.id
 
     print 'Hello task started with task_id {task_id}'.format(task_id=task_id)
     sleep(10)
