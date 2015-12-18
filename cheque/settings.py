@@ -71,9 +71,6 @@ EVE_SETTINGS = {
                 'name': {
                     'type': 'string'
                 },
-                'webcam': {
-                    'type': 'string'
-                },
                 'image': {
                     'type': 'media'
                 },
