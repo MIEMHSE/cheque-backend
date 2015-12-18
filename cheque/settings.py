@@ -68,9 +68,18 @@ EVE_SETTINGS = {
                      'embeddable': True
                  },
                 },
+                'name': {
+                    'type': 'string'
+                },
+                'webcam': {
+                    'type': 'string'
+                },
                 'image': {
                     'type': 'media'
                 },
+                'text': {
+                    'type': 'string'
+                }
             }
         }
     }
