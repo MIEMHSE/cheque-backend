@@ -24,8 +24,8 @@ EVE_SETTINGS = {
 
     'XML': False,
 
-    'MEDIA_BASE_URL': 'https://db.profitware.ru/cheque/',
-    'MEDIA_ENDPOINT': 'media',
+    'MEDIA_BASE_URL': 'https://db.profitware.ru/cheque',
+    'MEDIA_ENDPOINT': 'gridfs_media',
     'DOMAIN': {
         'people': {
             'item_title': 'person',
