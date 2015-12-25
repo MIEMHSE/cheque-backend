@@ -2,7 +2,6 @@
 
 __author__ = 'Sergey Sobko'
 
-
 CELERY_BROKER_URL = 'amqp://guest:guest@localhost//'
 CELERY_RESULT_BACKEND = 'amqp://guest:guest@localhost//'
 
@@ -63,10 +62,10 @@ EVE_SETTINGS = {
                 'person': {
                     'type': 'objectid',
                     'data_relation': {
-                     'resource': 'people',
-                     'field': '_id',
-                     'embeddable': True
-                 },
+                        'resource': 'people',
+                        'field': '_id',
+                        'embeddable': True
+                    },
                 },
                 'name': {
                     'type': 'string'
@@ -74,7 +73,10 @@ EVE_SETTINGS = {
                 'image': {
                     'type': 'media'
                 },
-                'text': {
+                'text_rus': {
+                    'type': 'string'
+                },
+                'text_eng': {
                     'type': 'string'
                 }
             }

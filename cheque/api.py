@@ -2,15 +2,11 @@
 
 __author__ = 'Sergey Sobko'
 
-from bson import ObjectId
 from cStringIO import StringIO
 from flask import jsonify, send_file
-from gridfs import GridFS, NoFile
-from pymongo import Connection, errors
-from PIL import Image
 
-from cheque.settings import EVE_SETTINGS
-from cheque.tasks import hello_task
+from cheque.utils import get_image_from_gridfs
+from cheque.tasks import hello_task, tesseract_task
 
 
 def hello_endpoint(task_id=None):
@@ -31,19 +27,13 @@ def hello_endpoint(task_id=None):
 
 
 def gridfs_media_endpoint(file_id):
-    try:
-        mongo_connection = Connection(
-            EVE_SETTINGS['MONGO_HOST'],
-            EVE_SETTINGS['MONGO_PORT']
-        )
-        gridfs_database = GridFS(mongo_connection[EVE_SETTINGS['MONGO_DBNAME']])
+    im = get_image_from_gridfs(file_id)
 
-        im_stream = gridfs_database.get(ObjectId(file_id))
-        im = Image.open(im_stream)
-        img_io = StringIO()
-        im.save(img_io, 'PNG')
-        img_io.seek(0)
-        return send_file(img_io, mimetype='image/png')
+    img_io = StringIO()
+    im.save(img_io, 'PNG')
+    img_io.seek(0)
+    return send_file(img_io, mimetype='image/png')
 
-    except (errors.ConnectionFailure, NoFile):
-        raise
+
+def after_insert_cheque(items):
+    tesseract_task.delay(items[0]['_id'])

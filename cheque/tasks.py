@@ -5,7 +5,12 @@ __email__ = 'S.Sobko@profitware.ru'
 
 from time import sleep
 
+from pymongo import Connection
+from pytesseract.pytesseract import image_to_string, TesseractError
+
 from cheque.bridge import celery
+from cheque.settings import EVE_SETTINGS
+from cheque.utils import get_image_from_gridfs
 
 
 @celery.task
@@ -20,3 +25,30 @@ def hello_task():
             result=result
     )
     return result
+
+
+@celery.task
+def tesseract_task(cheque_id):
+    mongo_connection = Connection(
+        EVE_SETTINGS['MONGO_HOST'],
+        EVE_SETTINGS['MONGO_PORT']
+    )
+
+    db = mongo_connection[EVE_SETTINGS['MONGO_DBNAME']]
+    cheque = db.cheque.find_one(cheque_id)
+
+    if cheque:
+        try:
+            im = get_image_from_gridfs(cheque['image'])
+
+        except KeyError:
+            raise
+
+        for lang in ('rus', 'eng'):
+            try:
+                db.cheque.update({'_id': cheque_id}, {'$set': {
+                    'text_{lang}'.format(lang=lang): image_to_string(im, lang=lang)
+                }})
+
+            except TesseractError:
+                pass

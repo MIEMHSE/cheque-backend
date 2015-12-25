@@ -25,6 +25,9 @@
         - mongodb-server
         - mongodb-dev
         - rabbitmq-server
+        - tesseract-ocr
+        - tesseract-ocr-rus
+        - tesseract-ocr-eng
 
     - name: install pip
       action: easy_install name=pip
