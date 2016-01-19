@@ -5,6 +5,7 @@ __email__ = 'S.Sobko@profitware.ru'
 
 from time import sleep
 
+from PIL import ImageEnhance
 from pymongo import Connection
 from pytesseract.pytesseract import image_to_string, TesseractError
 
@@ -39,7 +40,8 @@ def tesseract_task(cheque_id):
 
     if cheque:
         try:
-            im = get_image_from_gridfs(cheque['image'])
+            got_im = get_image_from_gridfs(cheque['image'])
+            im = ImageEnhance.Contrast(got_im).enhance(1.3)
 
         except KeyError:
             raise
