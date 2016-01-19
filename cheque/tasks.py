@@ -40,8 +40,10 @@ def tesseract_task(cheque_id):
 
     if cheque:
         try:
-            got_im = get_image_from_gridfs(cheque['image'])
-            im = ImageEnhance.Contrast(got_im).enhance(1.3)
+            im = get_image_from_gridfs(cheque['image'])
+            im = ImageEnhance.Color(im).enhance(0.0)
+            im = ImageEnhance.Sharpness(im).enhance(1.5)
+            im = ImageEnhance.Contrast(im).enhance(1.7)
 
         except KeyError:
             raise
